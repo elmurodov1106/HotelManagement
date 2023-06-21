@@ -1,10 +1,7 @@
 package com.example.hotelmanagement.dto.request;
 
-import com.example.hotelmanagement.entity.room.RoomType;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @AllArgsConstructor
@@ -13,23 +10,15 @@ import lombok.*;
 @Setter
 @Builder
 public class RoomRequestDto {
-
-    @NotEmpty(message = "This number must be empty")
-    @Column(nullable = false,unique = true)
+    @NotBlank(message = "Room number cannot be empty")
     private String number;
-
-    @NotEmpty(message = "This bed must be empty")
-    @Column(nullable = false)
-    private Integer bed;
-
+    @NotBlank(message = "Bed number cannot be empty")
+    private String bed;
+    @NotNull(message = "You should fill field TV")
     private Boolean hasTV;
-
-    @NotEmpty(message = "This price must be empty")
-    @Column(nullable = false)
+    @NotNull(message = "Price cannot be empty")
     private Double price;
-
-    @NotEmpty(message = "This room type must be empty")
-    @Column(nullable = false)
-    private RoomType type;
+    @NotBlank(message = "Room type cannot be empty")
+    private String type;
 
 }

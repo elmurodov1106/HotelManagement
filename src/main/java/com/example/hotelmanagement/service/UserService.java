@@ -37,7 +37,7 @@ public class UserService {
     }
     public JwtResponse signIn(LoginRequestDto loginRequestDto){
         UserEntity userEntity = userRepository.findUserEntityByUsername(loginRequestDto.getUsername())
-                .orElseThrow(() -> new DataNotFoundException("User not found"));
+                .orElseThrow(() -> new DataNotFoundException("Incorrect username or password"));
         if(passwordEncoder.matches(loginRequestDto.getPassword(),userEntity.getPassword())){
             String accessToken = jwtService.generateAccessToken(userEntity);
             String refreshToken = jwtService.generateRefreshToken(userEntity);
@@ -46,7 +46,7 @@ public class UserService {
                     .refreshToken(refreshToken)
                     .build();
         }
-        throw new AuthenticationFailedException("incorrect username or password");
+        throw new AuthenticationFailedException("Incorrect username or password");
     }
 
     public UserEntity update(UserRequestDto userRequestDto, Principal principal){

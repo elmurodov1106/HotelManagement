@@ -1,6 +1,7 @@
 package com.example.hotelmanagement.config;
 
 import com.example.hotelmanagement.exception.AuthenticationFailedException;
+import com.example.hotelmanagement.exception.DataNotFoundException;
 import com.example.hotelmanagement.exception.RequestValidationException;
 import com.example.hotelmanagement.exception.UniqueObjectException;
 import org.hibernate.ObjectNotFoundException;
@@ -37,5 +38,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(401).body(e.getMessage());
     }
 
-
+    @ExceptionHandler(value = {DataNotFoundException.class})
+    public ResponseEntity<String> dataNotFoundExceptionHandler(
+            DataNotFoundException e){
+        return ResponseEntity.status(401).body(e.getMessage());
+    }
 }

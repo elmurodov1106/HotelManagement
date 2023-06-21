@@ -1,16 +1,19 @@
 package com.example.hotelmanagement.entity.user;
 
 import com.example.hotelmanagement.entity.BaseEntity;
-import com.example.hotelmanagement.entity.user.UserRole;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+
 @Entity(name = "users")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,36 +31,39 @@ public class UserEntity extends BaseEntity implements UserDetails {
     private UserRole role;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        String ROLE="ROLE_";
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(ROLE + role));
+        return authorities;
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return username;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

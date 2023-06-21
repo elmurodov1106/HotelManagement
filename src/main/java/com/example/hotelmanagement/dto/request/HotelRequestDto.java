@@ -9,12 +9,12 @@ import lombok.*;
 @Setter
 @Builder
 public class HotelRequestDto {
-    @NotEmpty(message = "name not be empty")
+    @NotEmpty(message = "name cannot be empty")
     private String name;
 
-    @NotEmpty(message = "address not be empty")
+    @NotEmpty(message = "address cannot be empty")
     private String address;
 
-    @NotEmpty(message = "web site not be empty")
+    @NotEmpty(message = "website cannot be empty")
     private String website;
 }

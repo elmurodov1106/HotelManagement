@@ -26,8 +26,6 @@ public class JwtService {
     @Value("${refresh.expiry}")
     private long refreshTokenExpiry;
 
-    @Value("")
-
     public String generateAccessToken(UserEntity userEntity) {
         return Jwts.builder()
                 .signWith(SignatureAlgorithm.HS512, secretKey)

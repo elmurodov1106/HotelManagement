@@ -6,7 +6,6 @@ import com.example.hotelmanagement.exception.DataNotFoundException;
 import com.example.hotelmanagement.repository.HotelRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,10 +15,8 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class HotelService implements BaseService<HotelEntity, UUID> {
-
+public class HotelService {
    private final HotelRepository hotelRepository;
-   private final HotelService hotelService;
    private final ModelMapper modelMapper;
 
    public HotelEntity save(HotelRequestDto hotelRequestDto){
@@ -40,7 +37,7 @@ public class HotelService implements BaseService<HotelEntity, UUID> {
    }
 
    public void deleteById(UUID id){
-       HotelEntity hotelEntity = hotelRepository.findById(id)
+      hotelRepository.findById(id)
                        .orElseThrow(() -> new DataNotFoundException("This hotel not found"));
        hotelRepository.deleteById(id);
    }

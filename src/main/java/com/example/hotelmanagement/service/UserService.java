@@ -5,6 +5,9 @@ import com.example.hotelmanagement.dto.request.UserRequestDto;
 import com.example.hotelmanagement.dto.response.JwtResponse;
 import com.example.hotelmanagement.entity.user.UserEntity;
 import com.example.hotelmanagement.entity.user.UserRole;
+import com.example.hotelmanagement.exception.AuthenticationFailedException;
+import com.example.hotelmanagement.exception.DataNotFoundException;
+import com.example.hotelmanagement.exception.UniqueObjectException;
 import com.example.hotelmanagement.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -37,7 +40,11 @@ public class UserService {
                 .orElseThrow(() -> new DataNotFoundException("User not found"));
         if(passwordEncoder.matches(loginRequestDto.getPassword(),userEntity.getPassword())){
             String accessToken = jwtService.generateAccessToken(userEntity);
-            return JwtResponse.builder().accessToken(accessToken).build();
+            String refreshToken = jwtService.generateRefreshToken(userEntity);
+            return JwtResponse.builder()
+                    .accessToken(accessToken)
+                    .refreshToken(refreshToken)
+                    .build();
         }
         throw new AuthenticationFailedException("incorrect username or password");
     }
@@ -67,6 +74,12 @@ public class UserService {
         UserEntity userEntity = userRepository.findUserEntityByUsername(principal.getName())
                 .orElseThrow(() -> new AuthenticationFailedException("Your access has expired"));
         userRepository.delete(userEntity);
+    }
+    public JwtResponse getNewAccessToken(Principal principal) {
+        UserEntity userEntity = userRepository.findUserEntityByUsername(principal.getName())
+                .orElseThrow(() -> new DataNotFoundException("user not found"));
+        String accessToken = jwtService.generateAccessToken(userEntity);
+        return JwtResponse.builder().accessToken(accessToken).build();
     }
 
 }

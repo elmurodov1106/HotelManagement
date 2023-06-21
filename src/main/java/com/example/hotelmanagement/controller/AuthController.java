@@ -19,8 +19,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/auth")
-public class Auth_HotelController {
-
+public class AuthController {
     private final UserService userService;
 
     @PostMapping("/sign-Up")
@@ -39,7 +38,7 @@ public class Auth_HotelController {
     public ResponseEntity<JwtResponse> signIn(
             @RequestBody LoginRequestDto loginDto
     ){
-        return ResponseEntity.ok(userService.login(loginDto));
+        return ResponseEntity.ok(userService.signIn(loginDto));
     }
 
     @GetMapping("/refresh-token")

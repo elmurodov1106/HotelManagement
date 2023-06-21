@@ -15,7 +15,7 @@ public class RoomEntity extends BaseEntity {
     @Column(nullable = false,unique = true)
     private String number;
     @Column(nullable = false)
-    private Integer bed;
+    private String bed;
     private Boolean hasTV;
     private Double price;
     @Enumerated(EnumType.STRING)

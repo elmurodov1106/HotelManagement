@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -24,5 +23,5 @@ public abstract class BaseEntity {
     protected LocalDateTime createdDate;
     @UpdateTimestamp
     protected LocalDateTime updatedDate;
-    protected Boolean isActive;
+    protected Boolean isActive = true;
 }

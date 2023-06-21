@@ -19,20 +19,19 @@ import java.util.UUID;
 @RequestMapping("/api/v1/room")
 @RequiredArgsConstructor
 public class RoomController {
-
     private final RoomService roomService;
-
-    @PostMapping("/add")
+    @PostMapping("/{hotelId}/add")
     @PreAuthorize(value = "hasRole('ADMIN')")
     public ResponseEntity<RoomEntity> add(
           @Valid @RequestBody RoomRequestDto room,
-            BindingResult bindingResult
+            BindingResult bindingResult,
+          @PathVariable UUID hotelId
             ){
         if (bindingResult.hasErrors()) {
             List<ObjectError> allErrors = bindingResult.getAllErrors();
             throw new RequestValidationException(allErrors);
         }
-        return ResponseEntity.ok(roomService.save(room));
+        return ResponseEntity.ok(roomService.save(room, hotelId));
     }
 
     @GetMapping("get-all")
@@ -43,27 +42,22 @@ public class RoomController {
         return ResponseEntity.status(200).body(roomService.getAll(size, page));
     }
 
-    @PutMapping("/update")
+    @PutMapping("/{roomId}/update")
     @PreAuthorize(value = "hasRole('ADMIN')")
     public ResponseEntity<RoomEntity> update(
-            @Valid @RequestBody RoomRequestDto update,
-                   @RequestParam UUID roomId,
-            BindingResult bindingResult
+            @RequestBody RoomRequestDto update,
+                   @PathVariable UUID roomId
     ){
-        if (bindingResult.hasErrors()) {
-            List<ObjectError> allErrors = bindingResult.getAllErrors();
-            throw new RequestValidationException(allErrors);
-        }
         return ResponseEntity.ok(roomService.update(update,roomId));
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/{roomId}/delete")
     @PreAuthorize(value = "hasRole('ADMIN')")
-    public ResponseEntity delete(
-            @RequestParam UUID roomId
+    public ResponseEntity<String> delete(
+            @PathVariable UUID roomId
     ){
         roomService.delete(roomId);
-       return ResponseEntity.status(200).build();
+       return ResponseEntity.status(200).body("Successfully deleted");
     }
 
 

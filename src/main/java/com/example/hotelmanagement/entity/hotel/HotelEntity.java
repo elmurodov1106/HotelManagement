@@ -4,7 +4,7 @@ import com.example.hotelmanagement.entity.BaseEntity;
 import com.example.hotelmanagement.entity.user.UserEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import lombok.*;
 
 @Entity(name = "hotel")
@@ -20,6 +20,6 @@ public class HotelEntity extends BaseEntity {
     private String address;
     @Column(nullable = false, unique = true)
     private String website;
-    @OneToOne
+    @ManyToOne
     private UserEntity owner;
 }

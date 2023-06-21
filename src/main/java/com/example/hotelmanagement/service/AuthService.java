@@ -1,5 +1,6 @@
 package com.example.hotelmanagement.service;
 
+import com.example.hotelmanagement.exception.DataNotFoundException;
 import com.example.hotelmanagement.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,8 +16,8 @@ public class AuthService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        return userRepository.findUserEntitesByPhoneNumber(userName)
-                .orElseThroe(() -> new DataNotFoundException("User not found")
+        return userRepository.findUserEntityByUsername(userName)
+                .orElseThrow(() -> new DataNotFoundException("User not found")
                 );
     }
 }
